@@ -1,0 +1,97 @@
+#imports all the pips needed for this script
+import RPi GPIO as GPIO
+from tkinter import *
+from PIL import ImageTk
+import time
+import tkinter as tk
+
+#creates the counter var and gives it a int vale of 0
+count = 0
+#creates the variable and assigns it a pin number
+gpu1 = 17
+asu1 = 23
+bumper1 = 24
+#set the GPIO to use the names of the pins
+GPIO.setmode(GPIO.BCM)
+
+#Set gpu1, asu1, and buper1 as input and enable pullup resistor
+GPIO.setup(gpu1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(asu1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(bumper1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+#------------------------------------------------------------------------------
+#Creates the GUI window and defins the size
+win = tk.Tk()
+win.geometry("400x500")
+
+#------------------------------------------------------------------------------
+#Define the PhotoImage Constructor by passing the image file
+img= PhotoImage(file='C:\\Users\\joshua.jerome-patten\\Pictures\\2.gif', master= win)
+img_label= Label(win,image=img)
+
+#define the position of the image
+img_label.place(x=0, y=0)
+  
+#------------------------------------------------------------------------------
+# Create label
+
+l = Label(win, text = count,fg="red",bg="black")
+l.config(font =('Courier 24 bold'))
+l.pack()
+
+#resets counter to 0
+def reset():
+  global count
+  count = 0
+  l.configure(text=count)
+#-----------------------------------------------------------------------------  
+#Creates the add 1 counter button with the command to cal the def add function  
+button = tk.Button(win, text = 'Reset',command = reset )
+button.pack()
+#-----------------------------------------------------------------------------
+#adds current count
+def add(): 
+    global count  
+    count += 61 
+    l.configure(text=count)
+
+def gpu2(): 
+    global count  
+    count += 61 
+    l.configure(text=count)
+
+def asu2(): 
+    global count  
+    count += 61 
+    l.configure(text=count)
+
+def bumper2(): 
+    global count  
+    count += 61 
+    l.configure(text=count)
+#-----------------------------------------------------------------------------
+#Creates the add 1 counter button with the command to cal the def add function    
+button = tk.Button(win, text = 'add 1',command = add )
+button.pack()
+
+while True: #Loop indefinitely
+  input_state = GPIO.input(gpu1) #Retrieve the state of the button pin
+  if input_state == False:    #If readling is LOW, button has been pressed
+    print('Button Pressed') #Display button pressed
+    gpu2() #calls the gpu2 function
+    time.sleep(0.3) #Wait for 0.3 seconds for debouncing
+
+while True: #Loop indefinitely
+  input_state = GPIO.input(asu1) #Retrieve the state of the button pin
+  if input_state == False:    #If readling is LOW, button has been pressed
+    print('Button Pressed') #Display button pressed
+    asu2() #calls the asu2 function
+    time.sleep(0.3) #Wait for 0.3 seconds for debouncing
+
+while True: #Loop indefinitely
+  input_state = GPIO.input(bumer1) #Retrieve the state of the button pin
+  if input_state == False:    #If readling is LOW, button has been pressed
+    print('Button Pressed') #Display button pressed
+    bumper2() #calls the bumper2 function
+    time.sleep(0.3) #Wait for 0.3 seconds for debouncing
+
